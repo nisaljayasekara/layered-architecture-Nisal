@@ -10,7 +10,7 @@ import java.util.List;
 public class CustomerDaoImpl implements CustomerDAO{
 
     @Override
-    public ArrayList<CustomerDTO> getAllCustomers() throws SQLException, ClassNotFoundException {
+    public ArrayList<CustomerDTO> getAll() throws SQLException, ClassNotFoundException {
 
         ResultSet rst = CrudUtil.executeUpdate("SELECT * FROM Customer");
 
@@ -28,33 +28,33 @@ public class CustomerDaoImpl implements CustomerDAO{
     }
 
     @Override
-    public boolean saveCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
+    public boolean save(CustomerDTO dto) throws SQLException, ClassNotFoundException {
 
         return CrudUtil.executeUpdate("INSERT INTO Customer (id,name, address) VALUES (?,?,?)",dto.getId(), dto.getName(),dto.getAddress());
     }
 
     @Override
-    public boolean updateCustomer(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException {
+    public boolean update(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException {
 
         return CrudUtil.executeUpdate("UPDATE Customer SET name=?, address=? WHERE id=?",customerDTO.getName(),customerDTO.getAddress(), customerDTO.getId());
     }
 
     @Override
-    public boolean deleteCustomer(String id) throws SQLException, ClassNotFoundException {
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
 
         return CrudUtil.executeUpdate("DELETE FROM Customer WHERE id=?",id);
     }
 
 
     @Override
-    public boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
+    public boolean exist(String id) throws SQLException, ClassNotFoundException {
 
         ResultSet rst = CrudUtil.executeUpdate("SELECT id FROM Customer WHERE id=?",id);
         return rst.next();
     }
 
     @Override
-    public String getLastCustomerId() throws SQLException, ClassNotFoundException {
+    public String generateId() throws SQLException, ClassNotFoundException {
 
         ResultSet rst = CrudUtil.executeUpdate("SELECT id FROM Customer ORDER BY id DESC LIMIT 1;");
         if (rst.next()) {
@@ -67,7 +67,7 @@ public class CustomerDaoImpl implements CustomerDAO{
     }
 
     @Override
-    public CustomerDTO searchCustomer(String s) throws SQLException, ClassNotFoundException {
+    public CustomerDTO search(String s) throws SQLException, ClassNotFoundException {
 
         ResultSet rst = CrudUtil.executeUpdate("SELECT * FROM Customer WHERE id=?",s);
         rst.next();

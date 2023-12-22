@@ -7,11 +7,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface OrderDAO {
+public interface OrderDAO extends CrudDAO<OrderDTO> {
 
-
-    public String genarateNextOrderId() throws SQLException, ClassNotFoundException ;
-
-    public boolean saveOrder(OrderDTO dto) throws SQLException, ClassNotFoundException;
-    public boolean exist(String orderId) throws SQLException, ClassNotFoundException;
 }

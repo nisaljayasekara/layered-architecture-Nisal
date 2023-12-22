@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class ItemDaoImpl implements ItemDAO {
 
 
-    public ArrayList<ItemDTO> loadAllItems() throws SQLException, ClassNotFoundException {
+    public ArrayList<ItemDTO> getAll() throws SQLException, ClassNotFoundException {
 
         ResultSet rst = CrudUtil.executeUpdate("SELECT * FROM Item");
 
@@ -26,29 +26,31 @@ public class ItemDaoImpl implements ItemDAO {
         return dtoList;
     }
 
-    public boolean deleteItem(String code) throws SQLException, ClassNotFoundException {
+    public boolean delete(String code) throws SQLException, ClassNotFoundException {
 
         return CrudUtil.executeUpdate("DELETE FROM Item WHERE code=?",code);
     }
 
-    public boolean saveItem(ItemDTO dto) throws SQLException, ClassNotFoundException {
+
+    public boolean save(ItemDTO dto) throws SQLException, ClassNotFoundException {
 
         return CrudUtil.executeUpdate("INSERT INTO Item (code, description, unitPrice, qtyOnHand) VALUES (?,?,?,?)",dto.getCode(), dto.getDescription(), dto.getUnitPrice(), dto.getQtyOnHand());
     }
 
-    public boolean updateItems(ItemDTO dto) throws SQLException, ClassNotFoundException {
+    public boolean update(ItemDTO dto) throws SQLException, ClassNotFoundException {
 
         return CrudUtil.executeUpdate("UPDATE Item SET description=?, unitPrice=?, qtyOnHand=? WHERE code=?", dto.getDescription(),dto.getUnitPrice(),dto.getQtyOnHand(), dto.getCode());
     }
 
-    public boolean existItem(String code) throws SQLException, ClassNotFoundException {
+    public boolean exist(String code) throws SQLException, ClassNotFoundException {
 
         ResultSet rst = CrudUtil.executeUpdate("SELECT code FROM Item WHERE code=?",code);
         return rst.next();
 
     }
 
-    public String getLastItemId() throws SQLException, ClassNotFoundException {
+
+    public String generateId() throws SQLException, ClassNotFoundException {
         Connection connection = DBConnection.getDbConnection().getConnection();
         ResultSet rst = CrudUtil.executeUpdate("SELECT code FROM Item ORDER BY code DESC LIMIT 1;");
         if (rst.next()) {
@@ -60,7 +62,7 @@ public class ItemDaoImpl implements ItemDAO {
         }
     }
 
-    public ItemDTO searchItem(String s) throws SQLException, ClassNotFoundException {
+    public ItemDTO search(String s) throws SQLException, ClassNotFoundException {
 
         ResultSet rst =CrudUtil.executeUpdate("SELECT * FROM Item WHERE code=?",s);
         rst.next();
